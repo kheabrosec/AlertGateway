@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+      <h2>Editing channel with id: {{channel_id}}</h2>
+      <br>
+        <form action={{url_for("edit_channel",channel_id=channel_id)}} method="post">
+            <div class="field">
+                <label class="label">Channel name</label>
+                    {{form.channel_name(class_="textarea is-focused")}}
+            </div>
+            <div class="field">
+                <label class="label">Channel status</label>
+                <div class="select is-info">
+                                    <div class="control">
+                                        {{form.channel_enable()}}
+                                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Channel type</label>
+                    <div class="select is-danger">
+                                 <div class="control">
+                                        {{form.channel_type(readonly=True)}}
+                                 </div>
+                    </div>
+            </div>
+            <div class="field">
+                <label class="label">Parameters</label>
+                <div class="control"  >
+                    {{form.channel_parameters(class_="textarea is-focused")}}
+                </div>
+            </div>
+            <br/>
+            {{form.submit()}}
+        </form>
+</div>
+{% endblock %}

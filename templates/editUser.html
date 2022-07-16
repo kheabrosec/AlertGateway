@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+      <h2>Editing user {{user.user_name}}</h2>
+      <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <div class="box">
+            <form action={{url_for("edit_user_post",user_id=user.id)}} method="post">
+                <fieldset class="form-field">
+                    <label class="label">User name</label>
+                    {{form.user_name(class="input is-large")}}
+                </fieldset>
+                <fieldset class="form-field">
+                    <label class="label">Password</label>
+                    {{form.user_password(class="input is-large")}}
+                </fieldset>
+                <fieldset class="form-field">
+                    <label class="label">Confirm password</label>
+                    {{form.confirm_password(class="input is-large")}}
+                </fieldset>
+                <br/>
+                {{form.submit()}}
+            </form>
+        </div>
+</div>
+{% endblock %}

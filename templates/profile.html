@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+      <h2>Welcome, {{ name }}</h2>
+      <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+      <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+              <a class="nav-link active" data-toggle="pill" href="#output_channels">Output channels</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#input-channels">Input channels</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#messages">Messages</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#profile">Edit Profile</a>
+          </li>
+          <li class="nav-item">
+              <a class="button is-success" data-toggle="pill" href="#newchannel">+ New output channel</a>
+          </li>
+      </ul>
+
+
+    <div class="tab-content">
+        <div class="container tab-pane active" id="output_channels"><br>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Enabled</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in channels %}
+                {% if item.channel_enable == True %}
+                <tr class="table-success">
+                    {% else %}
+                <tr class="table-danger">
+                    {% endif %}
+                    <th scope="row">{{ item.channel_id }}</th>
+                    <td>{{ item.channel_name }}</td>
+                    {% if item.channel_enable == True %}
+                    <td>Yes</td>
+                    {% else %}
+                    <td>No</td>
+                    {% endif %}
+                    <td>{{ item.channel_type }}</td>
+                    <td>
+                        <form action="{{ url_for('edit_channel', channel_id=item.channel_id) }}" method=get>
+                            <input class="btn btn-warning" type=submit value="Edit"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('delete_channel', channel_id=item.channel_id) }}" method=post>
+                            <input class="btn btn-danger" type=submit value="Delete"/>
+                        </form>
+                    </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="container table-wrapper-scroll-y tab-pane fade" id="messages"><br>
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">sender</th>
+                    <th scope="col">receiver</th>
+                    <th scope="col">date</th>
+                    <th scope="col">data</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in messages %}
+                <tr>
+                    <th scope="row">{{ item.message_id}}</th>
+                    <td>{{ item.message_sender }}</td>
+                    <td>{{ item.message_receiver }}</td>
+                    <td>{{ item.message_date }}</td>
+                    <td>{{ item.message_data }}</td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="container table-wrapper-scroll-y tab-pane fade" id="profile"><br>
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">username</th>
+                    <th scope="col">api_key</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">{{ user.id}}</th>
+                    <td>{{ user.user_name }}</td>
+                    <td>{{ user.user_key }}</td>
+                    <td>
+                        <form action="{{ url_for('edit_user', user_id=user.id) }}" method=get>
+                            <input class="btn btn-warning" type=submit value="Edit"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container table-wrapper-scroll-y tab-pane fade" id="input-channels"><br>
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Channel name</th>
+                    <th scope="col">Channel location</th>
+                    <th scope="col">Bind address</th>
+                    <th scope="col">Port</th>
+                    <th scope="col">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for input_channel in input_channels %}
+                    {% if input_channel.input_channel_status == True %}
+                        <tr class="table-success">
+                    {% else %}
+                        <tr class="table-danger">
+                    {% endif %}
+                    <th scope="row">{{ input_channel.input_channel_id}}</th>
+                    <td>{{ input_channel.input_channel_name }}</td>
+                    <td>{{ input_channel.input_channel_location }}</td>
+                    <td>{{ input_channel.input_channel_address}}</td>
+                    <td>{{ input_channel.input_channel_port }}</td>
+                    <td>
+                                        {% if input_channel.input_channel_status == True %}
+                                        {% if (input_channel.input_channel_key != user.user_key) and (input_channel.input_channel_key != "") %}
+                                            <form action="" method=get>
+                                                <input class="btn btn-warning" disabled type=button value="Disable channel"/>
+                                            </form>
+                                        {% else %}
+                                            <form action="{{ url_for('change_inputChannel_status', input_channel_id=input_channel.input_channel_id) }}" method=get>
+                                                <input class="btn btn-danger" type=submit value="Disable channel"/>
+                                            </form>
+                                        {% endif %}
+                                        {% else %}
+                                        <form action="{{ url_for('change_inputChannel_status', input_channel_id=input_channel.input_channel_id) }}" method=get>
+                                            <input class="btn btn-success" type=submit value="Enable channel"/>
+                                        </form>
+                                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container table-wrapper-sc
+        roll-y tab-pane fade" id="newchannel">
+            <br>
+            <div class="container">
+                <form action={{url_for("add_channel")}} method="post">
+                    <div class="field">
+                        <label class="label">Channel name</label>
+                        {{form.channel_name(class_="input is-info")}}
+                    </div>
+                    <div class="field">
+                        <label class="label">Channel status</label>
+                        <div class="select is-info">
+                            <div class="control">
+                                {{form.channel_enable()}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Channel type</label>
+                        <div class="select is-info">
+                            <div class="control">
+                                {{form.channel_type()}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Parameters</label>
+                        <div class="control">
+                            {{form.channel_parameters(class_="textarea is-focused")}}
+                        </div>
+                    </div>
+                    <br/>
+                    {{form.submit()}}
+                </form>
+            </div>
+        </div>
+        <div class="container table-wrapper-scroll-y tab-pane fade" id="newinputchannel">
+            <br>
+            <div class="container">
+                <form action={{url_for("add_channel")}} method="post">
+                    <div class="field">
+                        <label class="label">Channel name</label>
+                        {{form.channel_name(class_="input is-info")}}
+                    </div>
+                    <div class="field">
+                        <label class="label">Channel status</label>
+                        <div class="select is-info">
+                            <div class="control">
+                                {{form.channel_enable()}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Channel type</label>
+                        <div class="select is-info">
+                            <div class="control">
+                                {{form.channel_type()}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Parameters</label>
+                        <div class="control">
+                            {{form.channel_parameters(class_="textarea is-focused")}}
+                        </div>
+                    </div>
+                    <br/>
+                    {{form.submit()}}
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
