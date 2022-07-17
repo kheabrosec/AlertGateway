@@ -214,7 +214,9 @@ def selectDB():
         Token.Question: '',
     })
     dblist = gw_manager.getAllDBs()
-
+    if dblist == []:
+        print("Can't retrieve any db, please create one with GatewayManager.")
+        exit()
     questions = [
         {
             'type': 'rawlist',
