@@ -42,13 +42,14 @@ _TODO_
 ![enter image description here](https://piwigo.camadera.com/upload/2022/07/17/20220717140850-7e77104d.png)
 
 > Protocol stack of the application:
->
+
 For inbound connections (Input channels) 
+
 | MODULE| PROTOCOL|  PORT |
-| ------ | ------ | ------ | -|
+| ------ | ------ | ------ | 
 |  REST| HTTPS (TCP)  |  4848|
-| SMTP| SMTP/STARTTLS (TCP) |  25
-| SYSLOG| SYSLOG (UDP) |  514
+| SMTP| SMTP/STARTTLS (TCP) |  25|
+| SYSLOG| SYSLOG (UDP) |  514|
 
 ````mermaid
 flowchart  LR  
@@ -59,7 +60,7 @@ a(Client\nrandom socket) --> d(AlertGW\nhttps/514 udp)
 For inbound connections (Web manager)
 
 | MODULE| PROTOCOL|  PORT |
-| ------ | ------ | ------ | -|
+| ------ | ------ | ------ |
 |  REST| HTTPS (TCP)  |  443|
 
 ````mermaid
@@ -70,7 +71,7 @@ a(Client\nrandom socket) --> b(AlertGW\nhttps/443 tcp)
 For outbound connections (AlertGW)
 
 | MODULE| PROTOCOL|  PORT |
-| ------ | ------ | ------ | -|
+| ------ | ------ | ------ | 
 | WEBHOOK| HTTPS (TCP)  |  443|
 | SMTP| SMTP/STARTTLS (TCP) |  25
 
