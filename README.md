@@ -5,7 +5,7 @@
   <img src="https://piwigo.camadera.com/upload/2022/07/04/20220704185624-e6d855f4.png"  />
 </p>
 <p align="center">
-  <img src="https://snyk.io/test/github/kheabrosec/AlertGateway/badge.svg?targetFile=package.json" />
+  <img src="https://snyk.io/test/github/kheabrosec/AlertGateway/badge.svg" />
 </p>
 
 <h1 align="center"> On hand alert distribution!
@@ -44,12 +44,11 @@ _TODO_
 > Protocol stack of the application:
 
 For inbound connections (Input channels) 
-
 | MODULE| PROTOCOL|  PORT |
 | ------ | ------ | ------ | 
 |  REST| HTTPS (TCP)  |  4848|
-| SMTP| SMTP/STARTTLS (TCP) |  25|
-| SYSLOG| SYSLOG (UDP) |  514|
+| SMTP| SMTP/STARTTLS (TCP) |  25
+| SYSLOG| SYSLOG (UDP) |  514
 
 ````mermaid
 flowchart  LR  
@@ -71,7 +70,7 @@ a(Client\nrandom socket) --> b(AlertGW\nhttps/443 tcp)
 For outbound connections (AlertGW)
 
 | MODULE| PROTOCOL|  PORT |
-| ------ | ------ | ------ | 
+| ------ | ------ | ------ | -|
 | WEBHOOK| HTTPS (TCP)  |  443|
 | SMTP| SMTP/STARTTLS (TCP) |  25
 
