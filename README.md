@@ -30,13 +30,15 @@ It is made out of three components:
  - ✔️ Pre-stablished modules (SMTP, Telegram, Discord, Slack, Rocket chat).
  - ✔️ Create your own modules of distribution.
  - ✔️ Multiplatform
+ - ✔️ Rsyslog as input channel [DONE]
+ - ✔️ Email as input channel [DONE]
+- ✔️ Implement inbound channels (Not only through REST API) [DONE]
 
 _TODO_
 
- - 🔜 Implement inbound channels (Not only through REST API)
+
  - 🔜  Accept RSS Feeds as input channel (Used to obtain NVD vulnerabilities)
- - 🔜Rsyslog as input channel
- - 🔜 Email as input channel
+ -  🔜 Implement starttls in smtp input channel
 
 ## Diagram and protocol stack
 ![enter image description here](https://piwigo.camadera.com/upload/2022/07/17/20220717140850-7e77104d.png)
