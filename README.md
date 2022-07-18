@@ -72,7 +72,7 @@ a(Client\nrandom socket) --> b(AlertGW\nhttps/443 tcp)
 For outbound connections (AlertGW)
 
 | MODULE| PROTOCOL|  PORT |
-| ------ | ------ | ------ | -|
+| ------ | ------ | ------ | 
 | WEBHOOK| HTTPS (TCP)  |  443|
 | SMTP| SMTP/STARTTLS (TCP) |  25
 
