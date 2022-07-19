@@ -324,7 +324,10 @@ def addUser(session,User):
         password2 = getpass.getpass(prompt="Repeat your password: ")
         if password1 == password2:
             break
-    password = bcrypt.hashpw(password1.encode("utf8"), bcrypt.gensalt()).decode()
+    try:
+        password = bcrypt.hashpw(password1.encode("utf8"), bcrypt.gensalt()).decode()
+    except:
+        password = bcrypt.hashpw(password1, bcrypt.gensalt())
     user = User(username, password)
     session.add(user)
     session.commit()
@@ -514,7 +517,7 @@ def verifyLogin(session,User,username,password):
         else:
             return False, None
     except:
-        if bcrypt.hashpw(password, consulta.user_pass).decode() == consulta.user_pass:
+        if bcrypt.hashpw(password, consulta.user_pass) == consulta.user_pass:
             return True, consulta
         else:
             return False, None
