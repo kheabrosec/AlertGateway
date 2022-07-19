@@ -238,7 +238,6 @@ def selectDB():
         if gw_manager.checkDBhealth(sys.argv[1]):
             db_name = sys.argv[1]
             db_selector.selectDB(db_name)
-            #return db_structure.db(db_name)
         else:
             print("Corrupt DB exiting...")
             exit(-1)
