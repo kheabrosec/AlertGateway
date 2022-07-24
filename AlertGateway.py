@@ -195,9 +195,9 @@ def change_inputChannel_status(input_channel_id):
         gw_manager.changeInputChannelStatus(session,InputChannel,User,channel.input_channel_id,True, current_user.get_id())
         return redirect(url_for('profile'))
     else:
-        ch.stop(rest_server)
         if gw_manager.changeInputChannelStatus(session, InputChannel,User, channel.input_channel_id, False, current_user.get_id()):
             processes[channel.input_channel_name] = ch.createServer(bind_address=channel.input_channel_address, port=channel.input_channel_port)
+            ch.stop(rest_server)
             return redirect(url_for('profile'))
         else:
             flash("Your user can not shutdown this input channel!", "notification is-danger")

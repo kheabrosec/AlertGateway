@@ -163,24 +163,28 @@ questions = [
         'default': False
     }
 ]
-answers = prompt(questions, style=style)
-db_name = "alertgw.db"
-if not answers["newDB"]:
-    selectDB()
-else:
-    questions = [
-        {
-            'type': 'input',
-            'name': 'database',
-            'message': 'Enter the db name (alertgw.db by default):',
-            'default': 'alertgw.db'
-        }
-    ]
-
+if len(sys.argv) < 2:
     answers = prompt(questions, style=style)
-    f = open("databases/"+str(answers["database"]), "w+").close()
-    db_selector.selectDB(answers["database"])
-    db_structure.createDb(answers["database"])
+    db_name = "alertgw.db"
+
+    if not answers["newDB"]:
+        selectDB()
+    else:
+        questions = [
+            {
+                'type': 'input',
+                'name': 'database',
+                'message': 'Enter the db name (alertgw.db by default):',
+                'default': 'alertgw.db'
+            }
+        ]
+
+        answers = prompt(questions, style=style)
+        f = open("databases/"+str(answers["database"]), "w+").close()
+        db_selector.selectDB(answers["database"])
+        db_structure.createDb(answers["database"])
+else:
+    selectDB()
 
 while True:
     questions = [
